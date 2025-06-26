@@ -198,6 +198,34 @@ class Header extends React.Component {
                   </AppHeaderButton>
                 </li>
               )}
+              <li>
+                <AppHeaderNavLink
+                  to="/ping-google"
+                  activeClassName="header-link-active"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    try {
+                      const startTime = Date.now();
+                      const response = await fetch('https://www.google.com', { method: 'HEAD' });
+                      const pingTime = Date.now() - startTime;
+
+                      if (response.ok) {
+                        console.log(`Google ping successful! Response time: ${pingTime}ms`);
+                        alert(`Google is reachable! Ping: ${pingTime}ms`);
+                      } else {
+                        console.log(`Google responded with status: ${response.status}`);
+                        alert(`Google responded with status: ${response.status}`);
+                      }
+                    } catch (error) {
+                      console.error('Failed to ping Google:', error);
+                      alert('Failed to reach Google. Check console for details.');
+                    }
+                  }}
+                >
+                  <Icon type="network" />
+                  Ping Google
+                </AppHeaderNavLink>
+              </li>
             </AppHeaderNavList>
           </nav>
           <AppHeaderActions>
